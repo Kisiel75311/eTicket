@@ -19,8 +19,9 @@ public class TicketType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long ticketTypeId;
 
     private String name;
+
     private Double price;
 }
