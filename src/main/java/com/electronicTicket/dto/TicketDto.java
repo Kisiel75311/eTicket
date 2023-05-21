@@ -1,9 +1,14 @@
 package com.electronicTicket.dto;
 
-import java.util.Date;
+import lombok.*;
 
+import java.util.Date;
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TicketDto {
-    private String ticketCode;
     private TicketTypeDto ticketType;
     private Date purchaseDate;
     private Date validityDate;

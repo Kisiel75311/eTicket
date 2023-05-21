@@ -1,9 +1,14 @@
 package com.electronicTicket.dto;
 
-import java.util.Date;
+import lombok.*;
 
+import java.util.Date;
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TransactionDto {
-    private String transactionId;
     private Date transactionDate;
     private TicketDto ticket;
 }

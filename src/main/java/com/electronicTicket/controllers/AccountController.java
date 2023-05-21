@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -14,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final AccountService accountService;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<AccountDto>> getAllAccounts() {
+        List<AccountDto> accountDtos = accountService.getAllAccounts();
+        return ResponseEntity.ok(accountDtos);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) {

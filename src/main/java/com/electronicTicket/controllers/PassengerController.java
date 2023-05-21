@@ -1,6 +1,7 @@
 package com.electronicTicket.controllers;
 
 import com.electronicTicket.dto.TicketDto;
+import com.electronicTicket.dto.TransactionDto;
 import com.electronicTicket.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,5 +21,11 @@ public class PassengerController {
     public ResponseEntity<List<TicketDto>> getPassengerTickets(@PathVariable Long id) {
         List<TicketDto> ticketDtos = accountService.getPassengerTickets(id);
         return ResponseEntity.ok(ticketDtos);
+    }
+
+    @GetMapping("/{id}/transactions")
+    public ResponseEntity<List<TransactionDto>> getPasengerTransactions(@PathVariable Long id) {
+        List<TransactionDto> transactionDtos = accountService.getPasengerTransactions(id);
+        return ResponseEntity.ok(transactionDtos);
     }
 }

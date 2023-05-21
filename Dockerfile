@@ -6,6 +6,6 @@ COPY pom.xml .
 RUN ./mvnw dependency:go-offline -B
 COPY src/ src/
 RUN ./mvnw package -DskipTests
-EXPOSE 8080
+EXPOSE 9090
 CMD ["java", "-jar", "target/electronicTicket-0.0.1-SNAPSHOT.jar"]
 

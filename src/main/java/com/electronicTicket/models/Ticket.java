@@ -27,7 +27,7 @@ public class Ticket {
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    private Boolean isActivated;
+    private Boolean isActivated = false;
 
     @ManyToOne
     private Account account;

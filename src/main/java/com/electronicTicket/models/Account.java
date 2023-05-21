@@ -21,9 +21,10 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountId;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String accountName;
 
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
