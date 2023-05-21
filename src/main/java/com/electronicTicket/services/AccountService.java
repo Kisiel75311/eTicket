@@ -4,12 +4,15 @@ import com.electronicTicket.dto.AccountDto;
 import com.electronicTicket.dto.TicketDto;
 import com.electronicTicket.dto.TransactionDto;
 import com.electronicTicket.models.Account;
-import com.electronicTicket.models.Role;
+import com.electronicTicket.models.enums.Role;
+import com.electronicTicket.models.Ticket;
+import com.electronicTicket.models.enums.TicketTypeEnum;
 import com.electronicTicket.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final TicketService ticketService;
 
     private final ModelMapper modelMapper;
 
@@ -41,6 +45,7 @@ public class AccountService {
         accountRepository.save(account);
         return accountDto;
     }
+
     public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
     }
@@ -51,8 +56,14 @@ public class AccountService {
         if (account.getRole() != Role.PASSENGER) {
             throw new IllegalArgumentException("Only accounts with role PASSENGER can check tickets.");
         }
+
         return account.getTickets().stream()
-                .map(ticket -> modelMapper.map(ticket, TicketDto.class))
+                .map(ticket -> {
+                    ticketService.deactivateExpiredTicket(ticket); // aktualizuj stan biletu przed zwróceniem go
+                    TicketDto ticketDto = modelMapper.map(ticket, TicketDto.class);
+                    ticketDto.setRemainingValidityTime(ticketService.getFormattedRemainingValidityTime(ticket));
+                    return ticketDto;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -67,4 +78,22 @@ public class AccountService {
                 .collect(Collectors.toList());
     }
 
+    public AccountDto topUpAccount(Long accountId, BigDecimal amount) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new NoSuchElementException("Account with id " + accountId + " not found."));
+
+        if (account.getRole() != Role.PASSENGER) {
+            throw new IllegalArgumentException("Only accounts with role PASSENGER can top up account.");
+        }
+
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Top up amount must be positive.");
+        }
+
+        account.setBalance(account.getBalance().add(amount));
+
+        accountRepository.save(account);
+
+        return modelMapper.map(account, AccountDto.class);
+    }
 }

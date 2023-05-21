@@ -1,7 +1,9 @@
 package com.electronicTicket.models;
 
+import com.electronicTicket.models.enums.Role;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,11 +44,11 @@ class ModelsTest {
         TicketType ticketType = new TicketType();
         ticketType.setTicketTypeId(1L);
         ticketType.setName("Adult");
-        ticketType.setPrice(2.5);
+        ticketType.setPrice(BigDecimal.valueOf(2.5));
 
         assertEquals(1L, ticketType.getTicketTypeId());
         assertEquals("Adult", ticketType.getName());
-        assertEquals(2.5, ticketType.getPrice());
+        assertEquals(BigDecimal.valueOf(2.5), ticketType.getPrice());
     }
 
     @Test

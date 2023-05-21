@@ -12,6 +12,10 @@ public class TicketDto {
     private TicketTypeDto ticketType;
     private Date purchaseDate;
     private Date validityDate;
-    private Boolean isStamped;
+    private Date expirationDate;
+    private Boolean checked;
+    private Boolean isActivated;
+    private Long vehicleId;
+    private String remainingValidityTime;
 }
 

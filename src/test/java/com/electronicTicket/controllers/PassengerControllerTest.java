@@ -4,6 +4,8 @@ import com.electronicTicket.dto.TicketDto;
 import com.electronicTicket.dto.TicketTypeDto;
 import com.electronicTicket.dto.TransactionDto;
 import com.electronicTicket.services.AccountService;
+import com.electronicTicket.services.TicketService;
+import com.electronicTicket.services.TransactionService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,9 @@ import static org.mockito.Mockito.*;
 public class PassengerControllerTest {
 
     private final AccountService accountService = mock(AccountService.class);
-    private final PassengerController passengerController = new PassengerController(accountService);
+    private final TransactionService transaciotnService = mock(TransactionService.class);
+    private final TicketService ticketService = mock(TicketService.class);
+    private final PassengerController passengerController = new PassengerController(accountService, transaciotnService, ticketService);
 
     @Test
     void getPassengerTicketsTest() {
@@ -32,13 +36,11 @@ public class PassengerControllerTest {
                         .ticketType(TicketTypeDto.builder().name("adult").price(10.0).build())
                         .purchaseDate(new Date())
                         .validityDate(new Date())
-                        .isStamped(false)
                         .build(),
                 TicketDto.builder()
                         .ticketType(TicketTypeDto.builder().name("child").price(5.0).build())
                         .purchaseDate(new Date())
                         .validityDate(new Date())
-                        .isStamped(true)
                         .build()
         );
         when(accountService.getPassengerTickets(accountId)).thenReturn(expectedTicketDtos);
@@ -79,7 +81,6 @@ public class PassengerControllerTest {
                                         .ticketType(TicketTypeDto.builder().name("adult").price(10.0).build())
                                         .purchaseDate(new Date())
                                         .validityDate(new Date())
-                                        .isStamped(true)
                                         .build()
                         )
                         .build(),
@@ -90,7 +91,6 @@ public class PassengerControllerTest {
                                         .ticketType(TicketTypeDto.builder().name("child").price(5.0).build())
                                         .purchaseDate(new Date())
                                         .validityDate(new Date())
-                                        .isStamped(false)
                                         .build()
                         )
                         .build()

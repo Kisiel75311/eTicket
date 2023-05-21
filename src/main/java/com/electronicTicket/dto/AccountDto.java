@@ -1,11 +1,9 @@
 package com.electronicTicket.dto;
 
-import com.electronicTicket.models.Role;
+import com.electronicTicket.models.enums.Role;
 import lombok.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
-import java.util.Collections;
-import java.util.List;
+import java.math.BigDecimal;
 
 @Builder
 @Getter
@@ -14,7 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 public class AccountDto {
     private String accountName;
-    private String password;
+//    private String password;
     private Role role;
+    private BigDecimal balance;
 }
 

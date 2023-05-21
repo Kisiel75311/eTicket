@@ -1,6 +1,6 @@
 package com.electronicTicket.dto;
 
-import com.electronicTicket.models.Role;
+import com.electronicTicket.models.enums.Role;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -13,12 +13,10 @@ public class DtoTests {
     public void createAndManipulateAccountDto() {
         AccountDto accountDto = AccountDto.builder()
                 .accountName("testName")
-                .password("testPassword")
                 .role(Role.PASSENGER)
                 .build();
 
         assertEquals("testName", accountDto.getAccountName());
-        assertEquals("testPassword", accountDto.getPassword());
         assertEquals(Role.PASSENGER, accountDto.getRole());
 
 
@@ -38,13 +36,11 @@ public class DtoTests {
                 .ticketType(ticketTypeDto)
                 .purchaseDate(date)
                 .validityDate(date)
-                .isStamped(false)
                 .build();
 
         assertEquals(ticketTypeDto, ticketDto.getTicketType());
         assertEquals(date, ticketDto.getPurchaseDate());
         assertEquals(date, ticketDto.getValidityDate());
-        assertEquals(false, ticketDto.getIsStamped());
 
         ticketTypeDto.setName("child");
         ticketDto.setTicketType(ticketTypeDto);
@@ -77,7 +73,6 @@ public class DtoTests {
                 .ticketType(ticketTypeDto)
                 .purchaseDate(date)
                 .validityDate(date)
-                .isStamped(false)
                 .build();
 
         TransactionDto transactionDto = TransactionDto.builder()

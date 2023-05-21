@@ -1,12 +1,16 @@
 package com.electronicTicket.database;
 
+import com.electronicTicket.models.enums.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.electronicTicket.models.*;
 import com.electronicTicket.repositories.*;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
@@ -25,27 +29,37 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) {
-        Account account1 = new Account(null, "testAccount1", "password1", Role.PASSENGER, null, null);
-        Account account2 = new Account(null, "testAccount2", "password2", Role.CONTROLLER, null, null);
+        Account account1 = new Account("passengerAccount", "password1", Role.PASSENGER, new BigDecimal(100));
+        Account account2 = new Account("controllerAccount", "password2", Role.CONTROLLER, new BigDecimal(50));
         accountRepository.save(account1);
         accountRepository.save(account2);
 
-        TicketType ticketType1 = new TicketType(null, "TestType1", 15.0);
-        TicketType ticketType2 = new TicketType(null, "TestType2", 20.0);
-        ticketTypeRepository.save(ticketType1);
-        ticketTypeRepository.save(ticketType2);
+        generateAllTicketTypes();
 
-        Date currentTimestamp = new Date();
+    }
 
-        Ticket ticket1 = new Ticket(null, ticketType1, currentTimestamp, new Date(currentTimestamp.getTime() + (1000 * 60 * 60 * 24)), true, account1);
-        Ticket ticket2 = new Ticket(null, ticketType2, currentTimestamp, new Date(currentTimestamp.getTime() + (1000 * 60 * 60 * 24)), false, account2);
-        ticketRepository.save(ticket1);
-        ticketRepository.save(ticket2);
+    private void generateAllTicketTypes() {
+        BigDecimal basePrice = BigDecimal.TEN;
+        List<DiscountTypeEnum> discountTypes = Arrays.asList(DiscountTypeEnum.values());
+        List<TimeLimitedTicketTypeEnum> timeLimitedTicketTypes = Arrays.asList(TimeLimitedTicketTypeEnum.values());
+        List<PeriodTicketTypeEnum> periodTicketTypes = Arrays.asList(PeriodTicketTypeEnum.values());
 
-        Transaction transaction1 = new Transaction(null, currentTimestamp, ticket1, account1);
-        Transaction transaction2 = new Transaction(null, currentTimestamp, ticket2, account2);
-        transactionRepository.save(transaction1);
-        transactionRepository.save(transaction2);
+        discountTypes.forEach(discountType -> {
+            timeLimitedTicketTypes.forEach(timeLimitedTicketType -> {
+                TicketType timeLimitedTicket = new TicketType(null, "Time Limited " + discountType.name() + " " + timeLimitedTicketType.name(),
+                        basePrice, TicketTypeEnum.TIME_LIMITED, discountType, timeLimitedTicketType, null);
+                ticketTypeRepository.save(timeLimitedTicket);
+            });
+
+            periodTicketTypes.forEach(periodTicketType -> {
+                TicketType periodTicket = new TicketType(null, "Period " + discountType.name() + " " + periodTicketType.name(),
+                        basePrice, TicketTypeEnum.PERIOD, discountType, null, periodTicketType);
+                ticketTypeRepository.save(periodTicket);
+            });
+
+            TicketType singleTicket = new TicketType(null, "Single " + discountType.name(),
+                    basePrice, TicketTypeEnum.SINGLE, discountType, null, null);
+            ticketTypeRepository.save(singleTicket);
+        });
     }
 }
-

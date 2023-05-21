@@ -1,7 +1,7 @@
 package com.electronicTicket.controllers;
 
 import com.electronicTicket.dto.AccountDto;
-import com.electronicTicket.models.Role;
+import com.electronicTicket.models.enums.Role;
 import com.electronicTicket.services.AccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -49,7 +49,7 @@ class AccountControllerTest {
     @Test
     void createAccountTest() {
         // Given
-        AccountDto accountDto = new AccountDto("test", "pass", Role.PASSENGER);
+        AccountDto accountDto = new AccountDto("test", Role.PASSENGER);
 
         // When
         ResponseEntity<AccountDto> response = accountController.createAccount(accountDto);

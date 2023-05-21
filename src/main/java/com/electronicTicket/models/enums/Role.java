@@ -1,4 +1,4 @@
-package com.electronicTicket.models;
+package com.electronicTicket.models.enums;
 
 public enum Role {
     PASSENGER,
