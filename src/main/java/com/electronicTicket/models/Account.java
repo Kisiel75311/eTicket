@@ -1,12 +1,13 @@
 package com.electronicTicket.models;
 
 import com.electronicTicket.models.enums.Role;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 import java.math.BigDecimal;  // Import the BigDecimal class
 
@@ -24,6 +25,9 @@ public class Account {
     @Column(unique = true, nullable = false)
     private String accountName;
 
+    @Column
+    private String email;
+
     @Column(nullable = false)
     private String password;
 
@@ -32,7 +36,7 @@ public class Account {
     private Role role;
 
     @Column(nullable = false)
-    private BigDecimal balance;  // Add the balance field
+    private BigDecimal balance = BigDecimal.valueOf(0);  // Add the balance field
 
     @OneToMany(mappedBy = "account")
     private List<Ticket> tickets;
@@ -40,11 +44,17 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions;
 
-    public Account(String accountName, String password, Role role, BigDecimal balance) {
+    public Account(String accountName, String email, String password, Role role) {
         this.accountName = accountName;
+        this.email = email;
         this.password = password;
         this.role = role;
-        this.balance = balance;
     }
-
+    public Account(String accountName, String email, String password, BigDecimal balance, Role role) {
+        this.accountName = accountName;
+        this.email = email;
+        this.password = password;
+        this.balance = balance;
+        this.role = role;
+    }
 }

@@ -29,10 +29,8 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) {
-        Account account1 = new Account("passengerAccount", "password1", Role.PASSENGER, new BigDecimal(100));
-        Account account2 = new Account("controllerAccount", "password2", Role.CONTROLLER, new BigDecimal(50));
+        Account account1 = new Account("admin", "admin@admin", "admin", new BigDecimal(100), Role.ADMIN);
         accountRepository.save(account1);
-        accountRepository.save(account2);
 
         generateAllTicketTypes();
 

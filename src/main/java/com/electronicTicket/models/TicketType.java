@@ -4,7 +4,7 @@ import com.electronicTicket.models.enums.DiscountTypeEnum;
 import com.electronicTicket.models.enums.PeriodTicketTypeEnum;
 import com.electronicTicket.models.enums.TicketTypeEnum;
 import com.electronicTicket.models.enums.TimeLimitedTicketTypeEnum;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
