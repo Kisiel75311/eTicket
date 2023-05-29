@@ -1,0 +1,15 @@
+.form-control__box {
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+button {
+  margin-top: 10px;
+  min-width: 100px;
+}
