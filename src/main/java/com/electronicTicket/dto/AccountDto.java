@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class AccountDto {
     private String accountName;
+    private String email;
 //    private String password;
     private Role role;
     private BigDecimal balance;

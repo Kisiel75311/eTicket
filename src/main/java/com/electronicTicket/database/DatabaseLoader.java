@@ -2,6 +2,7 @@ package com.electronicTicket.database;
 
 import com.electronicTicket.models.enums.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.electronicTicket.models.*;
@@ -19,19 +20,22 @@ public class DatabaseLoader implements CommandLineRunner {
     private final TicketRepository ticketRepository;
     private final TransactionRepository transactionRepository;
     private final TicketTypeRepository ticketTypeRepository;
+    private final PasswordEncoder encoder;
 
-    public DatabaseLoader(AccountRepository accountRepository, TicketRepository ticketRepository, TransactionRepository transactionRepository, TicketTypeRepository ticketTypeRepository) {
+    public DatabaseLoader(AccountRepository accountRepository, TicketRepository ticketRepository, TransactionRepository transactionRepository, TicketTypeRepository ticketTypeRepository, PasswordEncoder encoder) {
         this.accountRepository = accountRepository;
         this.ticketRepository = ticketRepository;
         this.transactionRepository = transactionRepository;
         this.ticketTypeRepository = ticketTypeRepository;
+        this.encoder = encoder;
     }
 
     @Override
     public void run(String... strings) {
-        Account account1 = new Account("admin", "admin@admin", "admin", new BigDecimal(100), Role.ADMIN);
+        Account account1 = new Account("admin", "admin@admin", encoder.encode("admin"), new BigDecimal(100), Role.ADMIN);
         accountRepository.save(account1);
-
+        Account account2 = new Account("controller", "controller@controller", encoder.encode("controller"), new BigDecimal(100), Role.CONTROLLER);
+        accountRepository.save(account2);
         generateAllTicketTypes();
 
     }
