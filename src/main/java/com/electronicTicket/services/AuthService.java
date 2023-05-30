@@ -23,7 +23,7 @@ public class AuthService {
     JwtUtils jwtUtils;
 
     public Account saveAccount(Account account){
-        account.setPassword(encoder.encode(account.getPassword()));
+        account.setPassword(account.getPassword());
         return accountRepository.save(account);
     }
 

@@ -4,14 +4,18 @@ import com.electronicTicket.dto.AccountDto;
 import com.electronicTicket.dto.TicketDto;
 import com.electronicTicket.dto.TicketTypeDto;
 import com.electronicTicket.dto.TransactionDto;
+import com.electronicTicket.security.services.UserDetailsImpl;
 import com.electronicTicket.services.AccountService;
 import com.electronicTicket.services.TicketService;
 import com.electronicTicket.services.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -23,33 +27,38 @@ public class PassengerController {
     private final TransactionService transactionService;
     private final TicketService ticketService;
 
-    @GetMapping("/{id}/tickets")
-    public ResponseEntity<List<TicketDto>> getPassengerTickets(@PathVariable Long id) {
+    @PreAuthorize("hasRole('PASSENGER')")
+    @GetMapping("/tickets")
+    public ResponseEntity<List<TicketDto>> getPassengerTickets(Principal principal) {
+        Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
         List<TicketDto> ticketDtos = accountService.getPassengerTickets(id);
         return ResponseEntity.ok(ticketDtos);
     }
-
-    @GetMapping("/{id}/transactions")
-    public ResponseEntity<List<TransactionDto>> getPasengerTransactions(@PathVariable Long id) {
+    @PreAuthorize("hasRole('PASSENGER')")
+    @GetMapping("/transactions")
+    public ResponseEntity<List<TransactionDto>> getPasengerTransactions(Principal principal) {
+        Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
         List<TransactionDto> transactionDtos = accountService.getPasengerTransactions(id);
         return ResponseEntity.ok(transactionDtos);
     }
-
-    @GetMapping("/{accountId}/transactions/{transactionId}")
-    public ResponseEntity<TransactionDto> getTransactionDetails(@PathVariable Long accountId, @PathVariable Long transactionId) {
+    @PreAuthorize("hasRole('PASSENGER')")
+    @GetMapping("/transactions/{transactionId}")
+    public ResponseEntity<TransactionDto> getTransactionDetails(@PathVariable Long transactionId, Principal principal) {
         TransactionDto transactionDto = transactionService.getTransactionDetails(transactionId);
         return ResponseEntity.ok(transactionDto);
     }
-
-    @PostMapping("/{accountId}/buyTicket/{ticketTypeId}/{vehicleId}")
-    public ResponseEntity<TicketDto> buyTicket(@PathVariable Long accountId, @PathVariable Long ticketTypeId, @PathVariable Long vehicleId) {
-        TicketDto ticketDto = ticketService.buyTicket(accountId, ticketTypeId, vehicleId);
+    @PreAuthorize("hasRole('PASSENGER')")
+    @PostMapping("/buyTicket/{ticketTypeId}/{vehicleId}")
+    public ResponseEntity<TicketDto> buyTicket(@PathVariable Long ticketTypeId, @PathVariable Long vehicleId, Principal principal) {
+        Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
+        TicketDto ticketDto = ticketService.buyTicket(id, ticketTypeId, vehicleId);
         return ResponseEntity.ok(ticketDto);
     }
-
-    @PostMapping("/{accountId}/topUpAccount/{amount}")
-    public ResponseEntity<AccountDto> addCredit(@PathVariable Long accountId, @PathVariable BigDecimal amount) {
-        AccountDto accountDto = accountService.topUpAccount(accountId, amount);
+    @PreAuthorize("hasRole('PASSENGER')")
+    @PostMapping("/topUpAccount/{amount}")
+    public ResponseEntity<AccountDto> addCredit(@PathVariable BigDecimal amount, Principal principal) {
+        Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
+        AccountDto accountDto = accountService.topUpAccount(id, amount);
         return ResponseEntity.ok(accountDto);
     }
 }
