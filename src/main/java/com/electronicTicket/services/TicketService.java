@@ -1,10 +1,7 @@
 package com.electronicTicket.services;
 
-import com.electronicTicket.dto.AccountDto;
 import com.electronicTicket.dto.TicketDto;
-import com.electronicTicket.dto.TicketTypeDto;
 import com.electronicTicket.models.Account;
-import com.electronicTicket.models.Transaction;
 import com.electronicTicket.models.enums.Role;
 import com.electronicTicket.models.Ticket;
 import com.electronicTicket.models.TicketType;
@@ -18,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -44,7 +40,7 @@ public class TicketService {
         Account account = accountRepository.findByAccountId(accountId)
                 .orElseThrow(() -> new NoSuchElementException("Account with id " + accountId + " not found."));
         // Sprawdzamy czy konto ma role pasażera
-        if (account.getRole() != Role.PASSENGER) {
+        if (account.getRole() != Role.ROLE_PASSENGER) {
             throw new IllegalArgumentException("Only accounts with role PASSENGER can buy tickets.");
         }
         // Sprawdzamy czy istnieje typ biletu z danym ID

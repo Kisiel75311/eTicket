@@ -9,7 +9,6 @@ import com.electronicTicket.models.*;
 import com.electronicTicket.repositories.*;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -32,9 +31,9 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) {
-        Account account1 = new Account("admin", "admin@admin", encoder.encode("admin"), new BigDecimal(100), Role.ADMIN);
+        Account account1 = new Account("admin", "admin@admin", encoder.encode("admin"), new BigDecimal(100), Role.ROLE_ADMIN);
         accountRepository.save(account1);
-        Account account2 = new Account("controller", "controller@controller", encoder.encode("controller"), new BigDecimal(100), Role.CONTROLLER);
+        Account account2 = new Account("controller", "controller@controller", encoder.encode("controller"), new BigDecimal(100), Role.ROLE_CONTROLLER);
         accountRepository.save(account2);
         generateAllTicketTypes();
 

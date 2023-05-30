@@ -16,12 +16,12 @@ class ModelsTest {
         account.setAccountId(1L);
         account.setAccountName("testAccount");
         account.setPassword("password");
-        account.setRole(Role.PASSENGER);
+        account.setRole(Role.ROLE_PASSENGER);
 
         assertEquals(1L, account.getAccountId());
         assertEquals("testAccount", account.getAccountName());
         assertEquals("password", account.getPassword());
-        assertEquals(Role.PASSENGER, account.getRole());
+        assertEquals(Role.ROLE_PASSENGER, account.getRole());
     }
 
     @Test

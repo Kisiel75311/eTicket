@@ -5,8 +5,6 @@ import com.electronicTicket.dto.TicketDto;
 import com.electronicTicket.dto.TransactionDto;
 import com.electronicTicket.models.Account;
 import com.electronicTicket.models.enums.Role;
-import com.electronicTicket.models.Ticket;
-import com.electronicTicket.models.enums.TicketTypeEnum;
 import com.electronicTicket.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -53,7 +51,7 @@ public class AccountService {
     public List<TicketDto> getPassengerTickets(Long id) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Account with id " + id + " not found."));
-        if (account.getRole() != Role.PASSENGER) {
+        if (account.getRole() != Role.ROLE_PASSENGER) {
             throw new IllegalArgumentException("Only accounts with role PASSENGER can check tickets.");
         }
 
@@ -70,7 +68,7 @@ public class AccountService {
     public List<TransactionDto> getPasengerTransactions(Long id) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Account with id " + id + " not found."));
-        if (account.getRole() != Role.PASSENGER) {
+        if (account.getRole() != Role.ROLE_PASSENGER) {
             throw new IllegalArgumentException("Only accounts with role PASSENGER can check transactions.");
         }
         return account.getTransactions().stream()
@@ -82,7 +80,7 @@ public class AccountService {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new NoSuchElementException("Account with id " + accountId + " not found."));
 
-        if (account.getRole() != Role.PASSENGER) {
+        if (account.getRole() != Role.ROLE_PASSENGER) {
             throw new IllegalArgumentException("Only accounts with role PASSENGER can top up account.");
         }
 

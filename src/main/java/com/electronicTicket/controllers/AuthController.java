@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.util.Collection;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -75,7 +74,7 @@ public class AuthController {
         Account account = new Account(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
-                Role.PASSENGER
+                Role.ROLE_PASSENGER
         );
 
         authService.saveAccount(account);
@@ -100,7 +99,7 @@ public class AuthController {
         Account account = new Account(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
-                Role.CONTROLLER
+                Role.ROLE_CONTROLLER
         );
 
         authService.saveAccount(account);
