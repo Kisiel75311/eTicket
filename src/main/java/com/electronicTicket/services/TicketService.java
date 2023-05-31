@@ -29,9 +29,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final AccountRepository accountRepository;
     private final TicketTypeRepository ticketTypeRepository;
-    private final TransactionRepository transactionRepository;
     private final TransactionService transactionService;
-    private final NotificationService notificationService;
     private final ModelMapper modelMapper;
 
 
@@ -80,23 +78,24 @@ public class TicketService {
         Ticket ticket = ticketRepository.findByTicketCode(ticketCode)
                 .orElseThrow(() -> new NoSuchElementException("Ticket with id " + ticketCode + " not found."));
 
-        Boolean isValid = checkTicketValidity(ticket, vehicleId);
-        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
         ticket.control();
+
+        Boolean isValid = checkTicketValidity(ticket, vehicleId);
+        if (!isValid) {
+            throw new IllegalArgumentException("Ticket with id " + ticketCode + " is not valid.");
+        }
 
         ticketRepository.save(ticket);
 
-        TicketDto ticketDto = modelMapper.map(ticket, TicketDto.class);
-        ticketDto.setIsActivated(isValid);
-        return ticketDto;
+        return modelMapper.map(ticket, TicketDto.class);
     }
 
-    public Boolean checkTicketValidity(Long ticketCode, Long vehicleId) {
-        Ticket ticket = ticketRepository.findByTicketCode(ticketCode)
-                .orElseThrow(() -> new NoSuchElementException("Ticket with id " + ticketCode + " not found."));
-
-        return checkTicketValidity(ticket, vehicleId);
-    }
+//    public Boolean checkTicketValidity(Long ticketCode, Long vehicleId) {
+//        Ticket ticket = ticketRepository.findByTicketCode(ticketCode)
+//                .orElseThrow(() -> new NoSuchElementException("Ticket with id " + ticketCode + " not found."));
+//
+//        return checkTicketValidity(ticket, vehicleId);
+//    }
 
     private Boolean checkTicketValidity(Ticket ticket, Long vehicleId) {
         return switch (ticket.getTicketType().getType()) {

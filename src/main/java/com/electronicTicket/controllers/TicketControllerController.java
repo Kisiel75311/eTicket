@@ -1,8 +1,8 @@
 package com.electronicTicket.controllers;
 
+import com.electronicTicket.dto.TicketDto;
 import com.electronicTicket.services.TicketService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +19,8 @@ public class TicketControllerController {
 
     @PreAuthorize("hasRole('CONTROLLER')")
     @GetMapping("/validate-ticket")
-    public ResponseEntity<Boolean> validateTicket(@RequestParam Long ticketCode, @RequestParam Long vehicleId) {
-        boolean isValid = ticketService.checkTicketValidity(ticketCode, vehicleId);
-        return ResponseEntity.ok(isValid);
+    public ResponseEntity<TicketDto> validateTicket(@RequestParam Long ticketCode, @RequestParam Long vehicleId) {
+        TicketDto ticketDto = ticketService.validateTicket(ticketCode, vehicleId);
+        return ResponseEntity.ok(ticketDto);
     }
 }
