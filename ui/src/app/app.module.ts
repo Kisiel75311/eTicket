@@ -3,19 +3,20 @@ import { BrowserModule } from "@angular/platform-browser";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { BooksModule } from "./books/books.module";
 import { RouterModule } from "@angular/router";
-import { BookNoFoundComponent } from "./utils/components/book-no-found/book-no-found.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { TicketsModule } from "./tickets/tickets.module";
+import { AuthModule} from "./auth/auth.module";
 
 @NgModule({
-  declarations: [AppComponent, BookNoFoundComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    BooksModule,
     AppRoutingModule,
     RouterModule,
     BrowserAnimationsModule,
+    TicketsModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,0 +1,17 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Ticket</mat-card-title>
+    <mat-card-subtitle>Commuter pass</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>This ticket entitles you to temporary travel</p>
+    <mat-divider></mat-divider>
+    <mat-card-title style="text-align: end">Price: <b>{{ ticket.price.toFixed(2) }}</b></mat-card-title>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="primary">BUY</button>
+  </mat-card-actions>
+<!--  <mat-card-footer>-->
+<!--    <mat-progress-bar mode="indeterminate"></mat-progress-bar>-->
+<!--  </mat-card-footer>-->
+</mat-card>

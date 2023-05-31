@@ -1,19 +1,19 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Account} from "../model/account";
+import {Ticket} from "../model/ticket";
 
-const accountsApiPrefix = "/api/accounts";
+const accountsApiPrefix = "/api/tickets";
 
 @Injectable({
   providedIn: "root",
 })
-export class BooksService {
+export class TicketService {
   constructor(private readonly http: HttpClient) {
   }
 
-  getAllAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(accountsApiPrefix);
+  getAllTickets(): Observable<Ticket[]> {
+    return this.http.get<Ticket[]>(accountsApiPrefix);
   }
 
 
