@@ -35,6 +35,8 @@ public class DatabaseLoader implements CommandLineRunner {
         accountRepository.save(account1);
         Account account2 = new Account("controller", "controller@controller", encoder.encode("controller"), new BigDecimal(100), Role.ROLE_CONTROLLER);
         accountRepository.save(account2);
+        Account account3 = new Account("user", "user@user", encoder.encode("user"), new BigDecimal(100), Role.ROLE_PASSENGER);
+        accountRepository.save(account3);
         generateAllTicketTypes();
 
     }

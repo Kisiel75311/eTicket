@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,4 +16,5 @@ public class UserInfoResponse {
     private String username;
     private String email;
     private List<String> roles;
+    private BigDecimal balance;
 }

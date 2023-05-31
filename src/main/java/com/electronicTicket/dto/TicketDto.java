@@ -9,7 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketDto {
-    private Long ticketId;
+    private Long ticketCode;
     private TicketTypeDto ticketType;
     private Date purchaseDate;
     private Date validityDate;

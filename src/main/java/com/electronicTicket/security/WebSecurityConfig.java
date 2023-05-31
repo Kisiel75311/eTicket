@@ -74,8 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui/v3/**",
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
-                        h2ConsolePath + "/**"
-//                        "/**"
+                        h2ConsolePath + "/**",
+                        "/**"
                 )
                 .permitAll()
                 .anyRequest().authenticated();

@@ -76,13 +76,13 @@ public class TicketService {
     }
 
 
-    public TicketDto validateTicket(Long ticketId, Long vehicleId) {
-        Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new NoSuchElementException("Ticket with id " + ticketId + " not found."));
+    public TicketDto validateTicket(Long ticketCode, Long vehicleId) {
+        Ticket ticket = ticketRepository.findByTicketCode(ticketCode)
+                .orElseThrow(() -> new NoSuchElementException("Ticket with id " + ticketCode + " not found."));
 
         Boolean isValid = checkTicketValidity(ticket, vehicleId);
-
-        ticket.setChecked(true);
+        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+        ticket.control();
 
         ticketRepository.save(ticket);
 
@@ -91,26 +91,24 @@ public class TicketService {
         return ticketDto;
     }
 
-    public Boolean checkTicketValidity(Long ticketId, Long vehicleId) {
-        Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new NoSuchElementException("Ticket with id " + ticketId + " not found."));
+    public Boolean checkTicketValidity(Long ticketCode, Long vehicleId) {
+        Ticket ticket = ticketRepository.findByTicketCode(ticketCode)
+                .orElseThrow(() -> new NoSuchElementException("Ticket with id " + ticketCode + " not found."));
 
         return checkTicketValidity(ticket, vehicleId);
     }
 
     private Boolean checkTicketValidity(Ticket ticket, Long vehicleId) {
-        Date now = new Date();
-
         return switch (ticket.getTicketType().getType()) {
             case SINGLE ->
                 // For single tickets, check if the ticket was activated in the same vehicle
                     ticket.getIsActivated() && ticket.getVehicleId().equals(vehicleId);
             case TIME_LIMITED ->
                 // For time-limited tickets, check if the ticket is still within its validity period
-                    ticket.getIsActivated() && ticket.getExpirationDate().after(now);
+                    ticket.getIsActivated() && ticket.getExpirationDate().after(ticket.getValidityDate());
             case PERIOD ->
                 // For period tickets, check if the current date is within the validity period
-                    ticket.getPurchaseDate().before(now) && ticket.getExpirationDate().after(now);
+                    ticket.getPurchaseDate().before(ticket.getValidityDate()) && ticket.getExpirationDate().after(ticket.getValidityDate());
             default -> throw new IllegalArgumentException("Unsupported ticket type");
         };
     }

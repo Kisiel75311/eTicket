@@ -59,8 +59,8 @@ public class AuthController {
                 .body(new UserInfoResponse(userDetails.getId(),
                         userDetails.getUsername(),
                         userDetails.getEmail(),
-                        roles));
-
+                        roles,
+                        userDetails.getBalance()));
     }
 
     @PostMapping("/signup")

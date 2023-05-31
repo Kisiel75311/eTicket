@@ -25,20 +25,26 @@ public class Ticket {
     private Date purchaseDate;
 
     @Temporal(TemporalType.TIMESTAMP)
+    private Date validityDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
     private Boolean checked = false;
 
-    private Long vehicleId = null;  // Set to null initially
+    private Long vehicleId = null;
 
     @ManyToOne
     private Account account;
 
-    private Boolean isActivated = false;  // This will be set to true when the ticket is used
+    private Boolean isActivated = false;
 
-    // This method can be used to activate the ticket and set the vehicle ID
     public void activate(Long vehicleId) {
         this.isActivated = true;
         this.vehicleId = vehicleId;
+    }
+    public void control() {
+        this.checked = true;
+        this.validityDate = new Date();
     }
 }

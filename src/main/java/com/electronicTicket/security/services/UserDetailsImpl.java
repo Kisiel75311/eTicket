@@ -1,5 +1,6 @@
 package com.electronicTicket.security.services;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +28,8 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private BigDecimal balance;
+
     private Collection<? extends GrantedAuthority> authorities;
 
 
@@ -39,6 +42,7 @@ public class UserDetailsImpl implements UserDetails {
                 account.getAccountName(),
                 account.getEmail(),
                 account.getPassword(),
+                account.getBalance(),
                 authorities);
     }
 
