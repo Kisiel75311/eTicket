@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Ticket} from "../../model/ticket";
+import {Ticket} from "../../../model/ticket";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({

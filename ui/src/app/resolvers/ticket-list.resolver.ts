@@ -8,13 +8,13 @@ import {Ticket} from "../model/ticket";
   providedIn: "root",
 })
 export class BookListResolver implements Resolve<Ticket[]> {
-  constructor(private booksService: TicketService) {
+  constructor(private ticketService: TicketService) {
   }
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<Ticket[]> {
-    return this.booksService.getAllTickets();
+    return this.ticketService.getAllTickets();
   }
 }

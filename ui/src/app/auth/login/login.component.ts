@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoginDto} from "../../tickets/model/authDto";
+import {LoginDto} from "../../model/authDto";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'bs-login',
@@ -18,6 +19,9 @@ export class LoginComponent implements OnInit {
   // @ts-ignore
   loginForm: FormGroup;
 
+  constructor(private readonly authService: AuthService) {
+  }
+
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       username: new FormControl(this.loginObject.username, [Validators.required]),
@@ -28,11 +32,10 @@ export class LoginComponent implements OnInit {
   }
 
 
-
   login() {
-    if (this.loginForm.valid) {
-      console.log("Login")
-    }
+    this.loginObject.username = this.usernameControl.value
+    this.loginObject.password = this.passwordControl.value
+    this.authService.signIn(this.loginObject)
   }
 
   private subscribeAllControls(): void {
@@ -63,6 +66,7 @@ export class LoginComponent implements OnInit {
   get passwordControl(): FormControl {
     return this.loginForm.get("password") as FormControl;
   }
+
   get isPasswordValid(): boolean {
     return this.passwordControl.hasError("required")
   }

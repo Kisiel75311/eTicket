@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {RegisterDto} from "../../tickets/model/authDto";
+import {RegisterDto} from "../../model/authDto";
 
 @Component({
   selector: 'bs-register',

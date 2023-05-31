@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {Ticket} from "../../model/ticket";
+import {Ticket} from "../../../model/ticket";
 
 @Component({
   selector: 'bs-ticket',

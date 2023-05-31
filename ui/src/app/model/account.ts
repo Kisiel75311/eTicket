@@ -1,11 +1,12 @@
 export interface Account {
+  id: number,
   accountName: string
-  role: Role
+  role: [Role]
   balance: number
 }
 
 enum Role {
-  PASSENGER,
-  CONTROLLER,
-  ADMIN
+  ROLE_PASSENGER,
+  ROLE_CONTROLLER,
+  ROLE_ADMIN
 }
