@@ -16,7 +16,7 @@ export class TicketControllerService {
     let queryParams = new HttpParams();
     queryParams.append("ticketCode", ticketCode)
     queryParams.append("vehicleId", vehicleId)
-    return this.http.get<Ticket[]>(accountsApiPrefix +  "/validate-ticket", {params: queryParams});
+    return this.http.get<Ticket[]>(accountsApiPrefix + "/validate-ticket", {params: queryParams});
   }
 
 }

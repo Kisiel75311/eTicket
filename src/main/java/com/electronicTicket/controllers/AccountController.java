@@ -4,7 +4,6 @@ import com.electronicTicket.dto.AccountDto;
 import com.electronicTicket.security.services.UserDetailsImpl;
 import com.electronicTicket.services.AccountService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/api/accounts")
 @RequiredArgsConstructor
 public class AccountController {
 
