@@ -7,9 +7,6 @@ import {Ticket} from "../../../model/ticket";
   styleUrls: ['./ticket.component.scss']
 })
 export class TicketComponent {
-    @Input() ticket: Ticket = {
-      id: 1,
-      name: "lol",
-      price: 12.3
-    }
+    // @ts-ignore
+  @Input() ticket: Ticket
 }

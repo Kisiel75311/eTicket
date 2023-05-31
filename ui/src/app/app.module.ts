@@ -15,9 +15,11 @@ import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatButtonModule} from "@angular/material/button";
 import { MainPageComponent } from './layout/main-page/main-page.component';
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
-  declarations: [AppComponent, SnackBarComponent, MainPageComponent],
+  declarations: [AppComponent, SnackBarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -28,7 +30,10 @@ import { MainPageComponent } from './layout/main-page/main-page.component';
     MatSnackBarModule,
     HttpClientModule,
     MatProgressBarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MainPageComponent
   ],
   providers: [AuthService, GlobalService],
   bootstrap: [AppComponent],
