@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.util.Collection;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -75,7 +75,7 @@ public class AuthController {
         Account account = new Account(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
-                Role.PASSENGER
+                Role.ROLE_PASSENGER
         );
 
         authService.saveAccount(account);
@@ -85,11 +85,8 @@ public class AuthController {
 
     // Endpoint to add a CONTROLLER by an ADMIN
     @PostMapping("/addController")
-    public ResponseEntity<?> addController(@Valid @RequestBody SignupRequest signUpRequest, @RequestHeader("Authorization") String token) {
-        if (!authService.isAdmin(token)) {
-            return ResponseEntity.status(403).body(new MessageResponse("Error: Only ADMIN can add a CONTROLLER!"));
-        }
-
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> addController(@Valid @RequestBody SignupRequest signUpRequest) {
         if (authService.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -100,13 +97,14 @@ public class AuthController {
         Account account = new Account(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
-                Role.CONTROLLER
+                Role.ROLE_CONTROLLER
         );
 
         authService.saveAccount(account);
 
         return ResponseEntity.ok(new MessageResponse("CONTROLLER registered successfully by ADMIN!"));
     }
+
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();

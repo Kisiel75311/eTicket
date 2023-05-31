@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class AuthService {
 
@@ -35,6 +33,6 @@ public class AuthService {
         String username = jwtUtils.getUserNameFromJwtToken(token);
         Account account = accountRepository.findByAccountName(username).
                 orElseThrow(() -> new RuntimeException("Error: Account is not found."));
-        return account != null && account.getRole().equals(Role.ADMIN);
+        return account != null && account.getRole().equals(Role.ROLE_ADMIN);
     }
 }

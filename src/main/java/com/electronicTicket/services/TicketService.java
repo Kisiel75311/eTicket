@@ -1,10 +1,7 @@
 package com.electronicTicket.services;
 
-import com.electronicTicket.dto.AccountDto;
 import com.electronicTicket.dto.TicketDto;
-import com.electronicTicket.dto.TicketTypeDto;
 import com.electronicTicket.models.Account;
-import com.electronicTicket.models.Transaction;
 import com.electronicTicket.models.enums.Role;
 import com.electronicTicket.models.Ticket;
 import com.electronicTicket.models.TicketType;
@@ -18,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -44,7 +40,7 @@ public class TicketService {
         Account account = accountRepository.findByAccountId(accountId)
                 .orElseThrow(() -> new NoSuchElementException("Account with id " + accountId + " not found."));
         // Sprawdzamy czy konto ma role pasażera
-        if (account.getRole() != Role.PASSENGER) {
+        if (account.getRole() != Role.ROLE_PASSENGER) {
             throw new IllegalArgumentException("Only accounts with role PASSENGER can buy tickets.");
         }
         // Sprawdzamy czy istnieje typ biletu z danym ID
@@ -78,6 +74,47 @@ public class TicketService {
         // Zwracamy informacje o zakupionym bilecie
         return modelMapper.map(ticket, TicketDto.class);
     }
+
+
+    public TicketDto validateTicket(Long ticketId, Long vehicleId) {
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new NoSuchElementException("Ticket with id " + ticketId + " not found."));
+
+        Boolean isValid = checkTicketValidity(ticket, vehicleId);
+
+        ticket.setChecked(true);
+
+        ticketRepository.save(ticket);
+
+        TicketDto ticketDto = modelMapper.map(ticket, TicketDto.class);
+        ticketDto.setIsActivated(isValid);
+        return ticketDto;
+    }
+
+    public Boolean checkTicketValidity(Long ticketId, Long vehicleId) {
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new NoSuchElementException("Ticket with id " + ticketId + " not found."));
+
+        return checkTicketValidity(ticket, vehicleId);
+    }
+
+    private Boolean checkTicketValidity(Ticket ticket, Long vehicleId) {
+        Date now = new Date();
+
+        return switch (ticket.getTicketType().getType()) {
+            case SINGLE ->
+                // For single tickets, check if the ticket was activated in the same vehicle
+                    ticket.getIsActivated() && ticket.getVehicleId().equals(vehicleId);
+            case TIME_LIMITED ->
+                // For time-limited tickets, check if the ticket is still within its validity period
+                    ticket.getIsActivated() && ticket.getExpirationDate().after(now);
+            case PERIOD ->
+                // For period tickets, check if the current date is within the validity period
+                    ticket.getPurchaseDate().before(now) && ticket.getExpirationDate().after(now);
+            default -> throw new IllegalArgumentException("Unsupported ticket type");
+        };
+    }
+
 
     @Scheduled(fixedRate = 3600000)
     public void deactivateExpiredTickets() {
@@ -119,14 +156,6 @@ public class TicketService {
 //        }
 //    }
 
-
-    public TicketDto validateTicket(Long ticketId, Long vehicleId) {
-        return null;
-    }
-
-    public Boolean checkTicketValidity(Long ticketId, Long vehicleId) {
-        return null;
-    }
 
     public Date calculateExpirationDate(TicketType ticketType) {
         LocalDateTime now = LocalDateTime.now();

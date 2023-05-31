@@ -13,11 +13,11 @@ public class DtoTests {
     public void createAndManipulateAccountDto() {
         AccountDto accountDto = AccountDto.builder()
                 .accountName("testName")
-                .role(Role.PASSENGER)
+                .role(Role.ROLE_PASSENGER)
                 .build();
 
         assertEquals("testName", accountDto.getAccountName());
-        assertEquals(Role.PASSENGER, accountDto.getRole());
+        assertEquals(Role.ROLE_PASSENGER, accountDto.getRole());
 
 
         accountDto.setAccountName("testName2");
