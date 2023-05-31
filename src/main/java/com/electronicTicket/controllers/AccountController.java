@@ -1,17 +1,20 @@
 package com.electronicTicket.controllers;
 
 import com.electronicTicket.dto.AccountDto;
+import com.electronicTicket.security.services.UserDetailsImpl;
 import com.electronicTicket.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/api/account")
 @RequiredArgsConstructor
 public class AccountController {
 
@@ -23,8 +26,9 @@ public class AccountController {
         return ResponseEntity.ok(accountDtos);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) {
+    @GetMapping("/details")
+    public ResponseEntity<AccountDto> getAccountById(Principal principal) {
+        Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
         AccountDto accountDto = accountService.getAccountById(id);
         return ResponseEntity.ok(accountDto);
     }
