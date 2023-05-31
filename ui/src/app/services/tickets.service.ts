@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Ticket} from "../model/ticket";
+import {TicketType, Ticket} from "../model/ticket";
 
 const accountsApiPrefix = "/api/tickets";
 
@@ -13,7 +13,11 @@ export class TicketService {
   }
 
   getAllTickets(): Observable<Ticket[]> {
-    return this.http.get<Ticket[]>(accountsApiPrefix);
+    return this.http.get<Ticket[]>(accountsApiPrefix +  "/all");
+  }
+
+  getAllTicketTypes(): Observable<TicketType[]> {
+    return this.http.get<TicketType[]>(accountsApiPrefix +  "/types");
   }
 
 

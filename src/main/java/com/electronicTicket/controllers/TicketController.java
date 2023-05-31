@@ -28,9 +28,10 @@ public class TicketController {
                 .map(ticketType -> modelMapper.map(ticketType, TicketTypeDto.class))
                 .toList();
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
     public List<TicketDto> getAllTickets() {
+        System.out.println(ticketRepository.findAll());
         return ticketRepository.findAll().stream()
                 .map(ticket -> modelMapper.map(ticket, TicketDto.class))
                 .toList();

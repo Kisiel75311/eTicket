@@ -14,9 +14,10 @@ import {HttpClientModule} from '@angular/common/http';
 import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatButtonModule} from "@angular/material/button";
+import { MainPageComponent } from './layout/main-page/main-page.component';
 
 @NgModule({
-  declarations: [AppComponent, SnackBarComponent],
+  declarations: [AppComponent, SnackBarComponent, MainPageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
