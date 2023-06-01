@@ -8,8 +8,13 @@
   </button>
   <span>eTicket</span>
   <span class="spacer"></span>
-  <button mat-icon-button class="example-icon" aria-label="Login button">
+  <span *ngIf="isLoggedIn()">Balance: {{getBalance()}}
+  <mat-icon></mat-icon></span>
+  <button mat-icon-button aria-label="Login button" *ngIf="!isLoggedIn()">
     <mat-icon>login</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Login out button" (click)="signOut()" *ngIf="isLoggedIn()">
+    <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
 
@@ -30,6 +35,6 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    My app content
+    <bs-login></bs-login>
   </mat-sidenav-content>
 </mat-sidenav-container>

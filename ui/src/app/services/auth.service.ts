@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   singOut(): void {
-    this.http.post<Message>(accountsApiPrefix + "/signup", "").subscribe({
+    this.http.post<Message>(accountsApiPrefix + "/signup", undefined).subscribe({
       next: (_) => {
         this.snack.open("Signed Out!")
       },

@@ -12,12 +12,15 @@ export class GlobalService {
   constructor() {
   }
 
-  // Get last value without subscribing to the puppies$ observable (synchronously).
   getAccount(): Account | undefined {
     return this._accountSource.getValue();
   }
 
-  setAccount(account: Account): void {
+  setAccount(account: Account | undefined): void {
     this._accountSource.next(account);
+  }
+
+  isAccountSet(): boolean {
+    return !!this._accountSource.getValue()
   }
 }
