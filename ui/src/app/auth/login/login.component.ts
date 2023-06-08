@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoginDto} from "../../model/authDto";
-import {AuthService} from "../../services/auth.service";
+import {AuthControllerService, LoginRequest, UserInfoResponse} from "../../core/api/v1";
+import {GlobalService} from "../../services/global.service";
+import {CustomSnackbarService} from "../../services/custom-snackbar.service";
 
 @Component({
   selector: 'bs-login',
@@ -11,21 +12,18 @@ import {AuthService} from "../../services/auth.service";
 export class LoginComponent implements OnInit {
   hide: boolean = true
   isFormValid: boolean = false
-  loginObject: LoginDto = {
-    username: "",
-    password: ""
-  };
 
   // @ts-ignore
   loginForm: FormGroup;
 
-  constructor(private readonly authService: AuthService) {
+  constructor(private readonly authService: AuthControllerService,private readonly global: GlobalService,
+              private readonly snack: CustomSnackbarService) {
   }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl(this.loginObject.username, [Validators.required]),
-      password: new FormControl(this.loginObject.password, [Validators.required]),
+      username: new FormControl("", [Validators.required]),
+      password: new FormControl("", [Validators.required]),
     });
     this.validateFormGroup();
     this.subscribeAllControls();
@@ -33,9 +31,21 @@ export class LoginComponent implements OnInit {
 
 
   login() {
-    this.loginObject.username = this.usernameControl.value
-    this.loginObject.password = this.passwordControl.value
-    this.authService.signIn(this.loginObject)
+    let request: LoginRequest = {
+      username: this.usernameControl.value,
+      password: this.passwordControl.value
+    }
+    this.authService.authenticateUser(request).subscribe({
+      next: (acc: UserInfoResponse) => {
+        this.passwordControl.setValue("")
+        this.global.setAccount(acc)
+
+        this.snack.open("Signed in!", "Close", 3000)
+      },
+      error: (error) => {
+        this.snack.open("Couldn't sing in " + error.error.message)
+      }
+    })
   }
 
   private subscribeAllControls(): void {

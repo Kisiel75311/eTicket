@@ -7,7 +7,8 @@ import {NgIf} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {GlobalService} from "../../services/global.service";
 import {AuthModule} from "../../auth/auth.module";
-import {AuthService} from "../../services/auth.service";
+import {AuthControllerService} from "../../core/api/v1";
+import {CustomSnackbarService} from "../../services/custom-snackbar.service";
 
 @Component({
   selector: 'bs-main-page',
@@ -18,19 +19,20 @@ import {AuthService} from "../../services/auth.service";
 })
 export class MainPageComponent {
 
-  constructor(private readonly global: GlobalService, private readonly authService: AuthService) {
+  constructor(private readonly global: GlobalService, private readonly authService: AuthControllerService, private readonly snack: CustomSnackbarService) {
   }
 
   isLoggedIn(): boolean {
-    return this.global.isAccountSet()
+    return this.global.isAccountSet();
   }
 
   getBalance(): string | undefined {
-    return this.global.getAccount()?.balance.toFixed(2)
+    return this.global.getAccount()?.balance?.toFixed(2);
   }
 
   signOut(): void {
-    this.authService.singOut()
-    this.global.setAccount(undefined)
+    this.authService.logoutUser();
+    this.global.setAccount(undefined);
+    this.snack.open("Logged out");
   }
 }

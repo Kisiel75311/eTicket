@@ -21,9 +21,9 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/MessageResponse'
   /api/auth/signout:
     post:
       tags:
@@ -33,9 +33,9 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/MessageResponse'
   /api/auth/signin:
     post:
       tags:
@@ -51,9 +51,9 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/UserInfoResponse'
   /api/auth/addController:
     post:
       tags:
@@ -69,9 +69,9 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/MessageResponse'
   /api/accounts/topUpAccount/{amount}:
     post:
       tags:
@@ -87,7 +87,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
   /api/accounts/buyTicket/{ticketTypeId}/{vehicleId}:
@@ -112,7 +112,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/TicketDto'
   /api/accounts/:
@@ -130,7 +130,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
   /api/tickets/types:
@@ -142,7 +142,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 type: array
                 items:
@@ -156,7 +156,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 type: array
                 items:
@@ -183,7 +183,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/TicketDto'
   /api/accounts/transactions:
@@ -195,7 +195,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 type: array
                 items:
@@ -216,7 +216,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/TransactionDto'
   /api/accounts/tickets:
@@ -228,7 +228,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 type: array
                 items:
@@ -242,7 +242,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
   /api/accounts/all:
@@ -254,7 +254,7 @@ paths:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 type: array
                 items:
@@ -274,6 +274,11 @@ components:
           type: string
         password:
           type: string
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
     LoginRequest:
       required:
       - password
@@ -284,6 +289,22 @@ components:
           type: string
         password:
           type: string
+    UserInfoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        balance:
+          type: number
     AccountDto:
       type: object
       properties:

@@ -1,0 +1,11 @@
+export * from './accountController.service';
+import { AccountControllerService } from './accountController.service';
+export * from './authController.service';
+import { AuthControllerService } from './authController.service';
+export * from './passengerController.service';
+import { PassengerControllerService } from './passengerController.service';
+export * from './ticketController.service';
+import { TicketControllerService } from './ticketController.service';
+export * from './ticketControllerController.service';
+import { TicketControllerControllerService } from './ticketControllerController.service';
+export const APIS = [AccountControllerService, AuthControllerService, PassengerControllerService, TicketControllerService, TicketControllerControllerService];

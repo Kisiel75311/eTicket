@@ -11,12 +11,21 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {AuthService} from "./services/auth.service";
 import {GlobalService} from "./services/global.service";
 import {HttpClientModule} from '@angular/common/http';
-import { SnackBarComponent } from './utils/snack-bar/snack-bar.component';
+import { SnackBarComponent } from './core/snack-bar/snack-bar.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatButtonModule} from "@angular/material/button";
 import { MainPageComponent } from './layout/main-page/main-page.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {ApiModule, Configuration, ConfigurationParameters} from "./core/api/v1";
+
+export function apiConfigFactory(): Configuration {
+  const params: ConfigurationParameters = {
+    basePath: 'http://localhost:9090',
+  };
+  return new Configuration(params);
+}
+
 
 @NgModule({
   declarations: [AppComponent, SnackBarComponent],
@@ -33,7 +42,8 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    MainPageComponent
+    MainPageComponent,
+    ApiModule.forRoot(apiConfigFactory)
   ],
   providers: [AuthService, GlobalService],
   bootstrap: [AppComponent],

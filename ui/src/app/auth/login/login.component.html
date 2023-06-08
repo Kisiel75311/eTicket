@@ -2,10 +2,10 @@
   <mat-card>
     <mat-card-title>Login</mat-card-title>
     <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <form (keydown.enter)="login()" [formGroup]="loginForm">
         <p>
           <mat-form-field>
-            <input type="text" matInput placeholder="Username" [formControl]="usernameControl">
+            <input type="text" matInput placeholder="Username" [formControl]="usernameControl" tabindex="1">
             <mat-error
               *ngIf="isUsernameValid">
               Username is required
@@ -14,7 +14,7 @@
         </p>
         <p>
           <mat-form-field>
-            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" [formControl]="passwordControl">
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" [formControl]="passwordControl" tabindex="2">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                     [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -26,7 +26,7 @@
           </mat-form-field>
         </p>
         <mat-card-actions align="end">
-          <button type="submit" color="primary" mat-raised-button [disabled]="!isFormValid">Login</button>
+          <button color="primary" mat-raised-button [disabled]="!isFormValid" tabindex="3" (click)="login()">Login</button>
         </mat-card-actions>
 
       </form>
