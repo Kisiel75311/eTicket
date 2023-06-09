@@ -7,12 +7,12 @@ export class CustomSnackbarService {
   constructor(private snackBar: MatSnackBar) {
   }
 
-  public open(message: string, action = 'Close', duration = 4000): void {
+  public open(message: string, action = 'Close', duration = 4000, bar_color="accent"): void {
     this.snackBar.openFromComponent(SnackBarComponent, {
-      data: {message, action},
+      data: {message, action, color: bar_color},
       duration: duration,
       verticalPosition: "bottom",
-      horizontalPosition: "end"
+      horizontalPosition: "end",
     })
   }
 }

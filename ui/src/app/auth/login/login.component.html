@@ -1,35 +1,36 @@
-<div>
-  <mat-card>
-    <mat-card-title>Login</mat-card-title>
-    <mat-card-content>
-      <form (keydown.enter)="login()" [formGroup]="loginForm">
-        <p>
-          <mat-form-field>
-            <input type="text" matInput placeholder="Username" [formControl]="usernameControl" tabindex="1">
-            <mat-error
-              *ngIf="isUsernameValid">
-              Username is required
-            </mat-error>
-          </mat-form-field>
-        </p>
-        <p>
-          <mat-form-field>
-            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" [formControl]="passwordControl" tabindex="2">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-            <mat-error
-              *ngIf="isPasswordValid">
-              Password is required
-            </mat-error>
-          </mat-form-field>
-        </p>
-        <mat-card-actions align="end">
-          <button color="primary" mat-raised-button [disabled]="!isFormValid" tabindex="3" (click)="login()">Login</button>
-        </mat-card-actions>
+<mat-card>
+  <mat-dialog-actions align="end">
+    <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+  </mat-dialog-actions>
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+    <form (keydown.enter)="login()" [formGroup]="loginForm">
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Username" [formControl]="usernameControl" tabindex="1" cdkFocusInitial>
+          <mat-error
+            *ngIf="isUsernameValid">
+            Username is required
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" [formControl]="passwordControl" tabindex="2">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="isPasswordValid">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <mat-card-actions align="end">
+        <button color="primary" mat-raised-button mat-dialog-close [disabled]="!isFormValid" tabindex="3" (click)="login()">Login</button>
+      </mat-card-actions>
 
-      </form>
-    </mat-card-content>
-  </mat-card>
-</div>
+    </form>
+  </mat-card-content>
+</mat-card>

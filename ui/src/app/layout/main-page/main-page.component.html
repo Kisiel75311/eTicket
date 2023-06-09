@@ -8,12 +8,15 @@
   </button>
   <span>eTicket</span>
   <span class="spacer"></span>
-  <span *ngIf="isLoggedIn()">Balance: {{getBalance()}}
+  <span *ngIf="isLoggedIn()" matTooltip="Your balance">Balance: {{getBalance()}}
   <mat-icon></mat-icon></span>
-  <button mat-icon-button aria-label="Login button" *ngIf="!isLoggedIn()">
+  <button mat-icon-button aria-label="Register button" matTooltip="Register" *ngIf="!isLoggedIn()" (click)="register()">
+    <mat-icon>app_registration</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Login button" matTooltip="Login" *ngIf="!isLoggedIn()" (click)="singin()">
     <mat-icon>login</mat-icon>
   </button>
-  <button mat-icon-button aria-label="Login out button" (click)="signOut()" *ngIf="isLoggedIn()">
+  <button mat-icon-button aria-label="Login out button" matTooltip="Logout" (click)="signOut()" *ngIf="isLoggedIn()">
     <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
@@ -35,6 +38,5 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <bs-login></bs-login>
   </mat-sidenav-content>
 </mat-sidenav-container>

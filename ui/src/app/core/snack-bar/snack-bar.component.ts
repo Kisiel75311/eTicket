@@ -28,8 +28,8 @@ export class SnackBarComponent {
   }
 
   runProgressBar(duration: number) {
-    this.progress = 100;
-    const step = 0.005;
+    this.progress = 90;
+    const step = 0.01;
     this.cleanProgressBarInterval();
     this.currentIntervalId = setInterval(() => {
       this.progress -= 100 * step;

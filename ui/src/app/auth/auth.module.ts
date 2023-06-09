@@ -8,6 +8,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
 import {RegisterComponent} from './register/register.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {RegisterComponent} from './register/register.component';
     MatIconModule,
     FormsModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ]
 })
 export class AuthModule {

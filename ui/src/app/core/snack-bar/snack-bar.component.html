@@ -4,5 +4,5 @@
     <button id="action-button" (click)="dismissWithAction()" mat-button color="accent">{{data.action}}</button>
   </div>
 
-  <mat-progress-bar id="progress-bar" mode="determinate" [value]="progress" color="warn"></mat-progress-bar>
+  <mat-progress-bar id="progress-bar" mode="determinate" [value]="progress" color="{{data.color}}"></mat-progress-bar>
 </div>

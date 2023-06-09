@@ -1,11 +1,14 @@
 <mat-card>
+  <mat-dialog-actions align="end">
+    <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+  </mat-dialog-actions>
   <mat-card-title>Register</mat-card-title>
   <mat-card-content>
-    <form [formGroup]="registerGroup" (ngSubmit)="register()">
+    <form [formGroup]="registerGroup" (keydown.enter)="register()" (ngSubmit)="register()">
       <p>
         <mat-form-field>
           <mat-label>Username</mat-label>
-          <input type="text" matInput placeholder="Username" [formControl]="usernameControl">
+          <input type="text" matInput placeholder="Username" [formControl]="usernameControl" cdkFocusInitial>
           <mat-error
             *ngIf="isUsernameValid">
             Username is required
@@ -38,10 +41,28 @@
             *ngIf="isPasswordValid">
             Password is required
           </mat-error>
+          <mat-error
+            *ngIf="isPassLongEnough">
+            Password must be at least 8 character long
+          </mat-error>
         </mat-form-field>
       </p>
-      <mat-card-actions align="end">
-        <button type="submit" color="primary" mat-raised-button [disabled]="!isFormValid">Register</button>
+      <p>
+        <mat-form-field>
+          <mat-label>Confirm password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Confirm password" [formControl]="confirmControl">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="doPasswordsDiffer">
+            Password must match
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <mat-card-actions align="end" >
+        <button type="submit" color="primary" mat-dialog-close mat-raised-button [disabled]="!isFormValid">Register</button>
       </mat-card-actions>
 
     </form>

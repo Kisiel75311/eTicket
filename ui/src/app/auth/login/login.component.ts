@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
         this.snack.open("Signed in!", "Close", 3000)
       },
       error: (error) => {
-        this.snack.open("Couldn't sing in " + error.error.message)
+        this.snack.open("Couldn't sing in " + error.error.message, "Close", 3000, "warn")
       }
     })
   }
