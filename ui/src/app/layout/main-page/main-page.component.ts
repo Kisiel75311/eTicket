@@ -13,13 +13,14 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialog} from "@angular/material/dialog";
 import {LoginComponent} from "../../auth/login/login.component";
 import {RegisterComponent} from "../../auth/register/register.component";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'bs-main-page',
   templateUrl: 'main-page.component.html',
   styleUrls: ['main-page.component.scss'],
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, NgIf, MatListModule, AuthModule, MatTooltipModule],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, NgIf, MatListModule, AuthModule, MatTooltipModule, RouterOutlet],
 })
 export class MainPageComponent {
 

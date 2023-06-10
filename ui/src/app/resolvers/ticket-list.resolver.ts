@@ -1,20 +1,7 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot,} from "@angular/router";
-import {Observable} from "rxjs";
-import {TicketService} from "../services/tickets.service";
-import {Ticket} from "../model/ticket";
-
-@Injectable({
-  providedIn: "root",
-})
-export class BookListResolver implements Resolve<Ticket[]> {
-  constructor(private ticketService: TicketService) {
-  }
-
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<Ticket[]> {
-    return this.ticketService.getAllTickets();
-  }
-}
+import {inject} from "@angular/core";
+import {ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot,} from "@angular/router";
+import {TicketControllerService, TicketTypeDto} from "../core/api/v1";
+export const ticketsResolver: ResolveFn<Array<TicketTypeDto>> =
+  (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+  return inject(TicketControllerService).getAllTicketTypes();
+};

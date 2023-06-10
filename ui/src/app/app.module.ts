@@ -18,6 +18,7 @@ import { MainPageComponent } from './layout/main-page/main-page.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {ApiModule, Configuration, ConfigurationParameters} from "./core/api/v1";
+import { WelcomePageComponent } from './layout/welcome-page/welcome-page.component';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -28,7 +29,7 @@ export function apiConfigFactory(): Configuration {
 
 
 @NgModule({
-  declarations: [AppComponent, SnackBarComponent],
+  declarations: [AppComponent, SnackBarComponent, WelcomePageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
