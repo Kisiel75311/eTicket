@@ -19,10 +19,11 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {ApiModule, Configuration, ConfigurationParameters} from "./core/api/v1";
 import { WelcomePageComponent } from './layout/welcome-page/welcome-page.component';
+import {environment} from "../environments/environment";
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
-    basePath: 'http://localhost:9090',
+    basePath: environment.basePath,
   };
   return new Configuration(params);
 }
