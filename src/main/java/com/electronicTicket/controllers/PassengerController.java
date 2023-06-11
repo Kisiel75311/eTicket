@@ -1,9 +1,6 @@
 package com.electronicTicket.controllers;
 
-import com.electronicTicket.dto.AccountDto;
-import com.electronicTicket.dto.TicketDto;
-import com.electronicTicket.dto.TicketTypeDto;
-import com.electronicTicket.dto.TransactionDto;
+import com.electronicTicket.dto.*;
 import com.electronicTicket.security.services.UserDetailsImpl;
 import com.electronicTicket.services.AccountService;
 import com.electronicTicket.services.TicketService;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -29,36 +27,55 @@ public class PassengerController {
 
     @PreAuthorize("hasRole('PASSENGER')")
     @GetMapping("/tickets")
-    public ResponseEntity<List<TicketDto>> getPassengerTickets(Principal principal) {
+    public ResponseEntity<Response<List<TicketDto>>> getPassengerTickets(Principal principal) {
         Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
         List<TicketDto> ticketDtos = accountService.getPassengerTickets(id);
-        return ResponseEntity.ok(ticketDtos);
+        Response<List<TicketDto>> response = new Response<>();
+        response.setData(ticketDtos);
+        response.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
+
     @PreAuthorize("hasRole('PASSENGER')")
     @GetMapping("/transactions")
-    public ResponseEntity<List<TransactionDto>> getPasengerTransactions(Principal principal) {
+    public ResponseEntity<Response<List<TransactionDto>>> getPasengerTransactions(Principal principal) {
         Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
         List<TransactionDto> transactionDtos = accountService.getPasengerTransactions(id);
-        return ResponseEntity.ok(transactionDtos);
+        Response<List<TransactionDto>> response = new Response<>();
+        response.setData(transactionDtos);
+        response.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
+
     @PreAuthorize("hasRole('PASSENGER')")
     @GetMapping("/transactions/{transactionId}")
-    public ResponseEntity<TransactionDto> getTransactionDetails(@PathVariable Long transactionId, Principal principal) {
+    public ResponseEntity<Response<TransactionDto>> getTransactionDetails(@PathVariable Long transactionId, Principal principal) {
         TransactionDto transactionDto = transactionService.getTransactionDetails(transactionId);
-        return ResponseEntity.ok(transactionDto);
+        Response<TransactionDto> response = new Response<>();
+        response.setData(transactionDto);
+        response.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
+
     @PreAuthorize("hasRole('PASSENGER')")
     @PostMapping("/buyTicket/{ticketTypeId}/{vehicleId}")
-    public ResponseEntity<TicketDto> buyTicket(@PathVariable Long ticketTypeId, @PathVariable Long vehicleId, Principal principal) {
+    public ResponseEntity<Response<TicketDto>> buyTicket(@PathVariable Long ticketTypeId, @PathVariable Long vehicleId, Principal principal) {
         Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
         TicketDto ticketDto = ticketService.buyTicket(id, ticketTypeId, vehicleId);
-        return ResponseEntity.ok(ticketDto);
+        Response<TicketDto> response = new Response<>();
+        response.setData(ticketDto);
+        response.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
+
     @PreAuthorize("hasRole('PASSENGER')")
     @PostMapping("/topUpAccount/{amount}")
-    public ResponseEntity<AccountDto> addCredit(@PathVariable BigDecimal amount, Principal principal) {
+    public ResponseEntity<Response<AccountDto>> addCredit(@PathVariable BigDecimal amount, Principal principal) {
         Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
         AccountDto accountDto = accountService.topUpAccount(id, amount);
-        return ResponseEntity.ok(accountDto);
+        Response<AccountDto> response = new Response<>();
+        response.setData(accountDto);
+        response.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
 }

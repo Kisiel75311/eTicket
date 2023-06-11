@@ -1,5 +1,6 @@
 package com.electronicTicket.controllers;
 
+import com.electronicTicket.dto.Response;
 import com.electronicTicket.dto.TicketDto;
 import com.electronicTicket.services.TicketService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/api/ticket-controller")
 @RequiredArgsConstructor
@@ -19,8 +22,12 @@ public class TicketControllerController {
 
     @PreAuthorize("hasRole('CONTROLLER')")
     @GetMapping("/validate-ticket")
-    public ResponseEntity<TicketDto> validateTicket(@RequestParam Long ticketCode, @RequestParam Long vehicleId) {
+    public ResponseEntity<Response<TicketDto>> validateTicket(@RequestParam Long ticketCode, @RequestParam Long vehicleId) {
         TicketDto ticketDto = ticketService.validateTicket(ticketCode, vehicleId);
-        return ResponseEntity.ok(ticketDto);
+        Response<TicketDto> response = new Response<>();
+        response.setData(ticketDto);
+        response.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
 }
+

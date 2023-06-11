@@ -1,6 +1,7 @@
 package com.electronicTicket.controllers;
 
 import com.electronicTicket.dto.AccountDto;
+import com.electronicTicket.dto.Response;
 import com.electronicTicket.security.services.UserDetailsImpl;
 import com.electronicTicket.services.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -20,21 +21,30 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<AccountDto>> getAllAccounts() {
+    public ResponseEntity<Response<List<AccountDto>>> getAllAccounts() {
         List<AccountDto> accountDtos = accountService.getAllAccounts();
-        return ResponseEntity.ok(accountDtos);
+        Response<List<AccountDto>> response = new Response<>();
+        response.setData(accountDtos);
+        response.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/details")
-    public ResponseEntity<AccountDto> getAccountById(Principal principal) {
+    public ResponseEntity<Response<AccountDto>> getAccountById(Principal principal) {
         Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
         AccountDto accountDto = accountService.getAccountById(id);
-        return ResponseEntity.ok(accountDto);
+        Response<AccountDto> response = new Response<>();
+        response.setData(accountDto);
+        response.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/")
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto accountDto) {
+    public ResponseEntity<Response<AccountDto>> createAccount(@RequestBody AccountDto accountDto) {
         accountService.createAccount(accountDto);
-        return ResponseEntity.ok(accountDto);
+        Response<AccountDto> response = new Response<>();
+        response.setData(accountDto);
+        response.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
 }

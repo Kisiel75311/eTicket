@@ -1,5 +1,6 @@
 package com.electronicTicket.controllers;
 
+import com.electronicTicket.dto.Response;
 import com.electronicTicket.models.Account;
 import com.electronicTicket.models.enums.Role;
 import com.electronicTicket.payload.request.LoginRequest;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -43,7 +45,7 @@ public class AuthController {
     PasswordEncoder encoder;
 
     @PostMapping("/signin")
-    public ResponseEntity<UserInfoResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Response<UserInfoResponse>> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -55,20 +57,30 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
+
+        UserInfoResponse userInfo = new UserInfoResponse(userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles,
+                userDetails.getBalance());
+
+        Response<UserInfoResponse> response = new Response<>();
+        response.setData(userInfo);
+        response.setTimestamp(LocalDateTime.now());
+
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new UserInfoResponse(userDetails.getId(),
-                        userDetails.getUsername(),
-                        userDetails.getEmail(),
-                        roles,
-                        userDetails.getBalance()));
+                .body(response);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<Response<MessageResponse>> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (authService.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+            MessageResponse messageResponse = new MessageResponse("Error: Username is already taken!");
+            Response<MessageResponse> response = new Response<>();
+            response.setData(messageResponse);
+            response.setError("Username is already taken!");
+            response.setTimestamp(LocalDateTime.now());
+            return ResponseEntity.badRequest().body(response);
         }
 
         // Create new user's account with role PASSENGER by default
@@ -80,17 +92,25 @@ public class AuthController {
 
         authService.saveAccount(account);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        MessageResponse messageResponse = new MessageResponse("User registered successfully!");
+        Response<MessageResponse> response = new Response<>();
+        response.setData(messageResponse);
+        response.setTimestamp(LocalDateTime.now());
+
+        return ResponseEntity.ok(response);
     }
 
     // Endpoint to add a CONTROLLER by an ADMIN
     @PostMapping("/addController")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<MessageResponse> addController(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<Response<MessageResponse>> addController(@Valid @RequestBody SignupRequest signUpRequest) {
         if (authService.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+            MessageResponse messageResponse = new MessageResponse("Error: Username is already taken!");
+            Response<MessageResponse> response = new Response<>();
+            response.setData(messageResponse);
+            response.setError("Username is already taken!");
+            response.setTimestamp(LocalDateTime.now());
+            return ResponseEntity.badRequest().body(response);
         }
 
         // Create new user's account with role CONTROLLER
@@ -102,13 +122,24 @@ public class AuthController {
 
         authService.saveAccount(account);
 
-        return ResponseEntity.ok(new MessageResponse("CONTROLLER registered successfully by ADMIN!"));
+        MessageResponse messageResponse = new MessageResponse("CONTROLLER registered successfully by ADMIN!");
+        Response<MessageResponse> response = new Response<>();
+        response.setData(messageResponse);
+        response.setTimestamp(LocalDateTime.now());
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/signout")
-    public ResponseEntity<MessageResponse> logoutUser() {
+    public ResponseEntity<Response<MessageResponse>> logoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+        MessageResponse messageResponse = new MessageResponse("You've been signed out!");
+        Response<MessageResponse> response = new Response<>();
+        response.setData(messageResponse);
+        response.setTimestamp(LocalDateTime.now());
+
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new MessageResponse("You've been signed out!"));
+                .body(response);
     }
+
 }
