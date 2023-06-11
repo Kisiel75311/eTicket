@@ -1,13 +1,10 @@
 <mat-card class="card">
   <mat-card-header>
-    <mat-card-title>Ticket</mat-card-title>
-    <mat-card-subtitle>Subtitle</mat-card-subtitle>
+    <mat-card-subtitle>Ticket</mat-card-subtitle>
+    <mat-card-title>{{transaction?.ticket?.ticketType?.name}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <p>This ticket entitles you to temporary travel</p>
-    <mat-divider></mat-divider>
+    <p class="right">{{transaction?.ticket?.isActivated ? "Active" : "Not active"}}</p>
   </mat-card-content>
-  <mat-card-actions align="end">
-    <button mat-raised-button color="primary">BUY</button>
-  </mat-card-actions>
 </mat-card>
