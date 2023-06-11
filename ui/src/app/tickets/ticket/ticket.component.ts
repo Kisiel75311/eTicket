@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {Ticket} from "../../../model/ticket";
+import {TicketTypeDto} from "../../core/api/v1";
 
 @Component({
   selector: 'bs-ticket',
@@ -7,6 +7,5 @@ import {Ticket} from "../../../model/ticket";
   styleUrls: ['./ticket.component.scss']
 })
 export class TicketComponent {
-    // @ts-ignore
-  @Input() ticket: Ticket
+  @Input() ticket: TicketTypeDto | undefined = undefined;
 }

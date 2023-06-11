@@ -1,0 +1,13 @@
+<p *ngFor="let ticket of tickets">
+  <bs-ticket [ticket]="ticket"></bs-ticket>
+</p>
+<mat-paginator
+  [length]="length"
+  [pageSize]="pageSize"
+  showFirstLastButtons="true"
+  [pageIndex]="pageIndex"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="handlePageEvent($event)"
+  aria-label="Select page"
+  class="mat-elevation-z2 paginator"
+></mat-paginator>

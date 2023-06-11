@@ -132,7 +132,7 @@ export class TicketControllerService {
                 responseType_ = 'blob';
             }
         }
-      console.log(localVarHeaders)
+
         let localVarPath = `/api/tickets/types`;
         return this.httpClient.request<Array<TicketTypeDto>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
