@@ -24,6 +24,7 @@ import {TransactionsModule} from "./transactions/transactions.module";
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
     basePath: environment.basePath,
+    withCredentials: true
   };
   return new Configuration(params);
 }

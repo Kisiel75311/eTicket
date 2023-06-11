@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransactionComponent } from './transaction/transaction.component';
+import {MatButtonModule} from "@angular/material/button";
+import {MatCardModule} from "@angular/material/card";
+import {MatDividerModule} from "@angular/material/divider";
 
 
 
@@ -9,7 +12,10 @@ import { TransactionComponent } from './transaction/transaction.component';
     TransactionComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule
   ]
 })
 export class TransactionsModule { }
