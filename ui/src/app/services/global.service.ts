@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {UserInfoResponse} from "../core/api/v1";
+import {UserInfoResponse, UserInterface} from "../core/api/v1";
 
 @Injectable({providedIn: "root"})
 export class GlobalService {
-  private readonly _accountSource = new BehaviorSubject<UserInfoResponse | undefined>(undefined);
+  private readonly _accountSource = new BehaviorSubject<UserInfoResponse<UserInterface> | undefined>(undefined);
 
   // Exposed observable (read-only).
   readonly account = this._accountSource.asObservable();
@@ -12,11 +12,11 @@ export class GlobalService {
   constructor() {
   }
 
-  getAccount(): UserInfoResponse | undefined {
+  getAccount(): UserInfoResponse<UserInterface> | undefined {
     return this._accountSource.getValue();
   }
 
-  setAccount(account: UserInfoResponse | undefined): void {
+  setAccount(account: UserInfoResponse<UserInterface> | undefined): void {
     this._accountSource.next(account);
   }
 

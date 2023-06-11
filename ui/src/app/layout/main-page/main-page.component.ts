@@ -32,7 +32,7 @@ export class MainPageComponent {
   }
 
   getBalance(): string | undefined {
-    return this.global.getAccount()?.balance?.toFixed(2);
+    return this.global.getAccount()?.data.balance?.toFixed(2);
   }
 
   signOut(): void {

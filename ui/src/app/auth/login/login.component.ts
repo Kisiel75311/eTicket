@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthControllerService, LoginRequest, UserInfoResponse} from "../../core/api/v1";
+import {AuthControllerService, LoginRequest, UserInterface, UserInfoResponse} from "../../core/api/v1";
 import {GlobalService} from "../../services/global.service";
 import {CustomSnackbarService} from "../../services/custom-snackbar.service";
 import {MatDialogRef} from "@angular/material/dialog";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'bs-login',
@@ -43,18 +44,21 @@ export class LoginComponent implements OnInit {
       password: this.passwordControl.value
     };
     this.authService.authenticateUser(request).subscribe({
-      next: (acc: UserInfoResponse) => {
-        this.passwordControl.setValue("");
-        this.global.setAccount(acc);
-        this.dialogRef.close();
+      next: (response: UserInfoResponse<UserInterface>) => {
+          this.passwordControl.setValue("");
+          this.global.setAccount(response);
+          this.dialogRef.close();
 
-        this.snack.open("Signed in!", "Close", 3000);
+          this.snack.open("Signed in!", "Close", 3000);
+
       },
-      error: (error) => {
-        this.snack.open("Couldn't sing in " + error.error.message, "Close", 3000, "warn");
+      error: (error: any) => {
+        let errorMessage = error.error.error || `Error Code: ${error.status}\nMessage: ${error.message}`;
+        this.snack.open(errorMessage, "Close", 3000, "warn");
       }
     })
   }
+
 
   private subscribeAllControls(): void {
     Object.keys(this.loginForm.controls).forEach((key) => {
