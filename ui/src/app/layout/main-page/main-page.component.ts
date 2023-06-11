@@ -13,14 +13,14 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialog} from "@angular/material/dialog";
 import {LoginComponent} from "../../auth/login/login.component";
 import {RegisterComponent} from "../../auth/register/register.component";
-import {RouterOutlet} from "@angular/router";
+import {RouterLink, RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'bs-main-page',
   templateUrl: 'main-page.component.html',
   styleUrls: ['main-page.component.scss'],
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, NgIf, MatListModule, AuthModule, MatTooltipModule, RouterOutlet],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, NgIf, MatListModule, AuthModule, MatTooltipModule, RouterOutlet, RouterLink],
 })
 export class MainPageComponent {
 
@@ -36,9 +36,10 @@ export class MainPageComponent {
   }
 
   signOut(): void {
-    this.authService.logoutUser();
-    this.global.setAccount(undefined);
-    this.snack.open("Logged out");
+    this.authService.logoutUser().subscribe((_) => {
+      this.global.setAccount(undefined);
+      this.snack.open("Logged out");
+    });
   }
 
   singin(): void {

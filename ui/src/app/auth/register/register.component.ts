@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {AuthControllerService, SignupRequest} from "../../core/api/v1";
 import {CustomSnackbarService} from "../../services/custom-snackbar.service";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'bs-register',
@@ -16,9 +17,8 @@ export class RegisterComponent implements OnInit {
   // @ts-ignore
   registerGroup: FormGroup;
 
-  constructor(private readonly authService: AuthControllerService, private readonly snack: CustomSnackbarService){
-
-  }
+  constructor(private readonly authService: AuthControllerService, private readonly snack: CustomSnackbarService,
+              private readonly dialogRef: MatDialogRef<RegisterComponent>){}
 
   ngOnInit(): void {
     this.registerGroup = new FormGroup({
@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit {
       this.authService.registerUser(req).subscribe({
         next: (_) => {
           this.snack.open("Registered", "Close", 3000, "accent")
+          this.dialogRef.close();
         }
       })
     }

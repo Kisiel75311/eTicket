@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthControllerService, LoginRequest, UserInfoResponse} from "../../core/api/v1";
 import {GlobalService} from "../../services/global.service";
 import {CustomSnackbarService} from "../../services/custom-snackbar.service";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'bs-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private readonly authService: AuthControllerService,private readonly global: GlobalService,
-              private readonly snack: CustomSnackbarService) {
+              private readonly snack: CustomSnackbarService, private readonly dialogRef: MatDialogRef<LoginComponent>) {
   }
 
   ngOnInit(): void {
@@ -29,21 +30,28 @@ export class LoginComponent implements OnInit {
     this.subscribeAllControls();
   }
 
+  getCookie(name: string) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
+    else return "";
+  }
 
   login() {
     let request: LoginRequest = {
       username: this.usernameControl.value,
       password: this.passwordControl.value
-    }
+    };
     this.authService.authenticateUser(request).subscribe({
       next: (acc: UserInfoResponse) => {
-        this.passwordControl.setValue("")
-        this.global.setAccount(acc)
+        this.passwordControl.setValue("");
+        this.global.setAccount(acc);
+        this.dialogRef.close();
 
-        this.snack.open("Signed in!", "Close", 3000)
+        this.snack.open("Signed in!", "Close", 3000);
       },
       error: (error) => {
-        this.snack.open("Couldn't sing in " + error.error.message, "Close", 3000, "warn")
+        this.snack.open("Couldn't sing in " + error.error.message, "Close", 3000, "warn");
       }
     })
   }

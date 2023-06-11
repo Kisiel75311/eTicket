@@ -8,7 +8,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {TicketsModule} from "./tickets/tickets.module";
 import {AuthModule} from "./auth/auth.module";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {AuthService} from "./services/auth.service";
 import {GlobalService} from "./services/global.service";
 import {HttpClientModule} from '@angular/common/http';
 import { SnackBarComponent } from './core/snack-bar/snack-bar.component';
@@ -20,6 +19,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {ApiModule, Configuration, ConfigurationParameters} from "./core/api/v1";
 import { WelcomePageComponent } from './layout/welcome-page/welcome-page.component';
 import {environment} from "../environments/environment";
+import {TransactionsModule} from "./transactions/transactions.module";
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -45,9 +45,10 @@ export function apiConfigFactory(): Configuration {
     MatIconModule,
     MatToolbarModule,
     MainPageComponent,
-    ApiModule.forRoot(apiConfigFactory)
+    ApiModule.forRoot(apiConfigFactory),
+    TransactionsModule
   ],
-  providers: [AuthService, GlobalService],
+  providers: [GlobalService],
   bootstrap: [AppComponent],
 })
 export class AppModule {

@@ -8,7 +8,7 @@
       <p>
         <mat-form-field>
           <mat-label>Username</mat-label>
-          <input type="text" matInput placeholder="Username" [formControl]="usernameControl" cdkFocusInitial>
+          <input type="text" matInput placeholder="Username" [formControl]="usernameControl" cdkFocusInitial tabindex="1">
           <mat-error
             *ngIf="isUsernameValid">
             Username is required
@@ -18,7 +18,7 @@
       <p>
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input type="email" matInput placeholder="Email" [formControl]="emailControl">
+          <input type="email" matInput placeholder="Email" [formControl]="emailControl" tabindex="2">
           <mat-error
             *ngIf="isEmailNotEntered">
             Email is required
@@ -32,7 +32,7 @@
       <p>
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" [formControl]="passwordControl">
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" [formControl]="passwordControl" tabindex="3">
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                   [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -50,7 +50,7 @@
       <p>
         <mat-form-field>
           <mat-label>Confirm password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Confirm password" [formControl]="confirmControl">
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Confirm password" [formControl]="confirmControl" tabindex="4">
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                   [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -62,7 +62,7 @@
         </mat-form-field>
       </p>
       <mat-card-actions align="end" >
-        <button type="submit" color="primary" mat-dialog-close mat-raised-button [disabled]="!isFormValid">Register</button>
+        <button type="submit" color="primary" mat-dialog-close mat-raised-button [disabled]="!isFormValid" tabindex="5">Register</button>
       </mat-card-actions>
 
     </form>
