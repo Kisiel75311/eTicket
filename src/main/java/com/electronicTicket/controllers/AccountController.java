@@ -1,6 +1,7 @@
 package com.electronicTicket.controllers;
 
 import com.electronicTicket.dto.AccountDto;
+import com.electronicTicket.payload.response.UserInfoResponse;
 import com.electronicTicket.security.services.UserDetailsImpl;
 import com.electronicTicket.services.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,17 @@ public class AccountController {
     }
 
     @GetMapping("/details")
-    public ResponseEntity<AccountDto> getAccountById(Principal principal) {
+    public ResponseEntity<UserInfoResponse> getAccountById(Principal principal) {
         Long id = ((UserDetailsImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId();
         AccountDto accountDto = accountService.getAccountById(id);
-        return ResponseEntity.ok(accountDto);
+        UserInfoResponse userInfoResponse = new UserInfoResponse(
+                id,
+                accountDto.getAccountName(),
+                accountDto.getEmail(),
+                List.of(accountDto.getRole().name()),
+                accountDto.getBalance()
+        );
+        return ResponseEntity.ok(userInfoResponse);
     }
 
     @PostMapping("/")

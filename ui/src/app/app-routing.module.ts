@@ -5,13 +5,14 @@ import {ticketsResolver} from "./resolvers/ticket-list.resolver";
 import {TicketListComponent} from "./tickets/ticket-list/ticket-list.component";
 import {TransactionComponent} from "./transactions/transaction/transaction.component";
 import {transactionsResolver} from "./resolvers/transaction-list.resolver";
+import {transactionsGuard} from "./auth/guards/transactions.guard";
+import {NotAuthorizedComponent} from "./layout/not-authorized/not-authorized.component";
 
 const routes: Routes = [
   {
     path: "",
     pathMatch: "full",
-    component: WelcomePageComponent,
-    resolve: {tickets: ticketsResolver}
+    component: WelcomePageComponent
   },
   {
     path: "tickets",
@@ -23,15 +24,14 @@ const routes: Routes = [
     path: "transactions",
     pathMatch: "full",
     component: TransactionComponent,
-    resolve: {transactions: transactionsResolver}
+    resolve: {transactions: transactionsResolver},
+    canActivate: [transactionsGuard]
+  },
+  {
+    path: "notauthorized",
+    pathMatch: "full",
+    component: NotAuthorizedComponent
   }
-  // {
-  //   path: "books",
-  //   component: BookListComponent,
-  //   resolve: {
-  //     books: BookListResolver,
-  //   },
-  // },
 ];
 
 @NgModule({

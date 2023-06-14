@@ -9,7 +9,7 @@ import {TicketsModule} from "./tickets/tickets.module";
 import {AuthModule} from "./auth/auth.module";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {GlobalService} from "./services/global.service";
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { SnackBarComponent } from './core/snack-bar/snack-bar.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatButtonModule} from "@angular/material/button";
@@ -20,6 +20,8 @@ import {ApiModule, Configuration, ConfigurationParameters} from "./core/api/v1";
 import { WelcomePageComponent } from './layout/welcome-page/welcome-page.component';
 import {environment} from "../environments/environment";
 import {TransactionsModule} from "./transactions/transactions.module";
+import { NotAuthorizedComponent } from './layout/not-authorized/not-authorized.component';
+import {UnauthorizedInterceptor} from "./auth/unauthorized.interceptor";
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -31,7 +33,7 @@ export function apiConfigFactory(): Configuration {
 
 
 @NgModule({
-  declarations: [AppComponent, SnackBarComponent, WelcomePageComponent],
+  declarations: [AppComponent, SnackBarComponent, WelcomePageComponent, NotAuthorizedComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -49,7 +51,13 @@ export function apiConfigFactory(): Configuration {
     ApiModule.forRoot(apiConfigFactory),
     TransactionsModule
   ],
-  providers: [GlobalService],
+  providers: [
+    GlobalService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: UnauthorizedInterceptor
+    }],
   bootstrap: [AppComponent],
 })
 export class AppModule {

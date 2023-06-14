@@ -6,7 +6,7 @@
     (click)="drawer.toggle()">
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
-  <span><a routerLink="/">eTicket</a></span>
+  <a style="cursor: pointer;" mat-list-item routerLink="/">eTicket</a>
   <span class="spacer"></span>
   <span *ngIf="isLoggedIn()" matTooltip="Your balance">Balance: {{getBalance()}}
   <mat-icon></mat-icon></span>
