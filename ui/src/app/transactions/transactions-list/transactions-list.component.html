@@ -1,0 +1,15 @@
+<p *ngFor="let transaction of transactions">
+  <bs-transaction [transaction]="transaction"></bs-transaction>
+</p>
+<h1 class="title" *ngIf="transactions.length < 1">Your list is empty!</h1>
+<mat-paginator
+  [length]="length"
+  [pageSize]="pageSize"
+  showFirstLastButtons="true"
+  [pageIndex]="pageIndex"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="handlePageEvent($event)"
+  aria-label="Select page"
+  class="mat-elevation-z2 paginator"
+  *ngIf="transactions.length > 0"
+></mat-paginator>

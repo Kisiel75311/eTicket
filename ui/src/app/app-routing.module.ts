@@ -3,10 +3,10 @@ import {RouterModule, Routes} from "@angular/router";
 import {WelcomePageComponent} from "./layout/welcome-page/welcome-page.component";
 import {ticketsResolver} from "./resolvers/ticket-list.resolver";
 import {TicketListComponent} from "./tickets/ticket-list/ticket-list.component";
-import {TransactionComponent} from "./transactions/transaction/transaction.component";
 import {transactionsResolver} from "./resolvers/transaction-list.resolver";
 import {transactionsGuard} from "./auth/guards/transactions.guard";
 import {NotAuthorizedComponent} from "./layout/not-authorized/not-authorized.component";
+import {TransactionsListComponent} from "./transactions/transactions-list/transactions-list.component";
 
 const routes: Routes = [
   {
@@ -23,7 +23,7 @@ const routes: Routes = [
   {
     path: "transactions",
     pathMatch: "full",
-    component: TransactionComponent,
+    component: TransactionsListComponent,
     resolve: {transactions: transactionsResolver},
     canActivate: [transactionsGuard]
   },

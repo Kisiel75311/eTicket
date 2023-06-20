@@ -30,7 +30,7 @@
         <div matListItemTitle>Tickets</div>
         <div matListItemLine>Buy a ticket</div>
       </a>
-      <a mat-list-item routerLink="/transactions" *ngIf="isLoggedIn()">
+      <a mat-list-item routerLink="/transactions" *ngIf="isPassanger()">
         <mat-icon matListItemIcon>book_online</mat-icon>
         <div matListItemTitle>Transactions</div>
         <div matListItemLine>Your tickets</div>

@@ -31,6 +31,11 @@ export class MainPageComponent {
     return this.global.isAccountSet();
   }
 
+  isPassanger(): boolean {
+    const acc = this.global.getAccount();
+    return acc?.roles?.includes("ROLE_PASSENGER") ?? false
+  }
+
   getBalance(): string | undefined {
     return this.global.getAccount()?.balance?.toFixed(2);
   }
