@@ -30,13 +30,6 @@ export class LoginComponent implements OnInit {
     this.subscribeAllControls();
   }
 
-  getCookie(name: string) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift();
-    else return "";
-  }
-
   login() {
     let request: LoginRequest = {
       username: this.usernameControl.value,

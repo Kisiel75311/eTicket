@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Hi!</h1>
+<div mat-dialog-content>
+  <p>What is number of vehicle</p>
+  <mat-form-field (keydown.enter)="buyTicket()">
+    <mat-label>Vehicle number</mat-label>
+    <input matInput [(ngModel)]="num" placeholder="Vehicle number" type="number" [formControl]="controler">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-raised-button (click)="buyTicket()" cdkFocusInitial [disabled]="controler.invalid" color="primary">Buy</button>
+</div>
