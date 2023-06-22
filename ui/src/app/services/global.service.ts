@@ -23,4 +23,14 @@ export class GlobalService {
   isAccountSet(): boolean {
     return !!this._accountSource.getValue()
   }
+
+  isPassenger(): boolean {
+    return !!this._accountSource.getValue()?.roles?.includes("ROLE_PASSENGER")
+  }
+
+  isAdmin(): boolean {
+    return !!this._accountSource.getValue()?.roles?.includes("ROLE_ADMIN")
+  }
+
+
 }

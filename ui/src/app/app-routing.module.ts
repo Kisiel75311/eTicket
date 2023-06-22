@@ -7,6 +7,8 @@ import {transactionsResolver} from "./resolvers/transaction-list.resolver";
 import {transactionsGuard} from "./auth/guards/transactions.guard";
 import {NotAuthorizedComponent} from "./layout/not-authorized/not-authorized.component";
 import {TransactionsListComponent} from "./transactions/transactions-list/transactions-list.component";
+import {CheckTicketComponent} from "./layout/check-ticket/check-ticket.component";
+import {AddControllerComponent} from "./layout/add-controller/add-controller.component";
 
 const routes: Routes = [
   {
@@ -31,6 +33,16 @@ const routes: Routes = [
     path: "notauthorized",
     pathMatch: "full",
     component: NotAuthorizedComponent
+  },
+  {
+    path: "check-ticket",
+    pathMatch: "full",
+    component: CheckTicketComponent
+  },
+  {
+    path: "add-controller",
+    pathMatch: "full",
+    component: AddControllerComponent
   }
 ];
 

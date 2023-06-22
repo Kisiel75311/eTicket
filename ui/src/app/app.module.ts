@@ -22,6 +22,8 @@ import {environment} from "../environments/environment";
 import {TransactionsModule} from "./transactions/transactions.module";
 import { NotAuthorizedComponent } from './layout/not-authorized/not-authorized.component';
 import {UnauthorizedInterceptor} from "./auth/unauthorized.interceptor";
+import { CheckTicketComponent } from './layout/check-ticket/check-ticket.component';
+import { AddControllerComponent } from './layout/add-controller/add-controller.component';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -33,7 +35,7 @@ export function apiConfigFactory(): Configuration {
 
 
 @NgModule({
-  declarations: [AppComponent, SnackBarComponent, WelcomePageComponent, NotAuthorizedComponent],
+  declarations: [AppComponent, SnackBarComponent, WelcomePageComponent, NotAuthorizedComponent, CheckTicketComponent, AddControllerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

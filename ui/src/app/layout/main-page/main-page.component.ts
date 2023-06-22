@@ -7,7 +7,7 @@ import {NgIf} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {GlobalService} from "../../services/global.service";
 import {AuthModule} from "../../auth/auth.module";
-import {AuthControllerService} from "../../core/api/v1";
+import {AccountControllerService, AuthControllerService} from "../../core/api/v1";
 import {CustomSnackbarService} from "../../services/custom-snackbar.service";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialog} from "@angular/material/dialog";
@@ -24,7 +24,15 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 })
 export class MainPageComponent {
 
-  constructor(private readonly global: GlobalService, private readonly authService: AuthControllerService, private readonly snack: CustomSnackbarService, public dialog: MatDialog) {
+  constructor(private readonly global: GlobalService, private readonly authService: AuthControllerService, private readonly snack: CustomSnackbarService, public dialog: MatDialog, private readonly account: AccountControllerService) {
+    this.account.getAccountById().subscribe({
+      next: (v) => {
+        this.global.setAccount(v)
+      },
+      error: (_) => {
+        this.global.setAccount(undefined)
+      }
+    })
   }
 
   isLoggedIn(): boolean {
@@ -34,6 +42,15 @@ export class MainPageComponent {
   isPassanger(): boolean {
     const acc = this.global.getAccount();
     return acc?.roles?.includes("ROLE_PASSENGER") ?? false
+  }
+
+  isController(): boolean {
+    const acc = this.global.getAccount();
+    return acc?.roles?.includes("ROLE_CONTROLLER") ?? false
+  }
+
+  isAdmin(): boolean {
+    return this.global.isAdmin()
   }
 
   getBalance(): string | undefined {
@@ -47,7 +64,7 @@ export class MainPageComponent {
     });
   }
 
-  singin(): void {
+  signIn(): void {
     this.dialog.open(LoginComponent);
   }
 

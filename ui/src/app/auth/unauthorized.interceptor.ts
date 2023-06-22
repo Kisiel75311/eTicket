@@ -29,6 +29,8 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
             this.snack.open("You need to be signed in to perform this action", "Close", 6000, "warn");
           }
         })
+      } else {
+        this.snack.open("Something went wrong. Status: " + error.status, "Close", 6000, "warn");
       }
       return throwError(() => new Error(error.message));
     }));

@@ -13,7 +13,7 @@
   <button mat-icon-button aria-label="Register button" matTooltip="Register" *ngIf="!isLoggedIn()" (click)="register()">
     <mat-icon>app_registration</mat-icon>
   </button>
-  <button mat-icon-button aria-label="Login button" matTooltip="Login" *ngIf="!isLoggedIn()" (click)="singin()">
+  <button mat-icon-button aria-label="Login button" matTooltip="Login" *ngIf="!isLoggedIn()" (click)="signIn()">
     <mat-icon>login</mat-icon>
   </button>
   <button mat-icon-button aria-label="Login out button" matTooltip="Logout" (click)="signOut()" *ngIf="isLoggedIn()">
@@ -34,6 +34,16 @@
         <mat-icon matListItemIcon>book_online</mat-icon>
         <div matListItemTitle>Transactions</div>
         <div matListItemLine>Your tickets</div>
+      </a>
+      <a mat-list-item routerLink="/check-ticket" *ngIf="isController()">
+        <mat-icon matListItemIcon>confirmation_number</mat-icon>
+        <div matListItemTitle>Verify ticket</div>
+        <div matListItemLine>Check if ticket is valid</div>
+      </a>
+      <a mat-list-item routerLink="/check-ticket" *ngIf="isAdmin()">
+        <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
+        <div matListItemTitle>Admin panel</div>
+        <div matListItemLine>Manage users</div>
       </a>
     </mat-nav-list>
   </mat-sidenav>
